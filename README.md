@@ -1,3 +1,3 @@
 # DataStruct
 -----
-## * [List](/List)
+* [List](/List)
