@@ -1,6 +1,18 @@
-main:main.cpp
-	g++ -o $@ $^ -g
+.PHONY:all
+all:
+	for dir in `ls -F | grep '/$$'`;\
+	do\
+		cd ./$$dir;\
+		make;\
+		cd ..;\
+	done
+
 
 .PHONY:clean
 clean:
-	rm -rf main
+	for dir in `ls -F | grep '/$$'`;\
+	do\
+		cd ./$$dir;\
+		make clean;\
+		cd ..;\
+	done
