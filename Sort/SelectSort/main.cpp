@@ -62,9 +62,9 @@ void SelectSort(vector<T>& v)
         {
             int ma=max(v,i,j,length-i-1);
             int mi=min(v,i,j,length-i-1);
-            //不用担心两次交换会产生错误，因为如果ma和mi相等，表明这三个数是相等的，交换不会产生什么影响
             swap(v[i],v[mi]);
-            swap(v[length-i-1],v[ma]);
+            if(1==compair(v[ma],v[length-i-1]))
+                swap(v[length-i-1],v[ma]);
         }
     }
 }
@@ -73,7 +73,7 @@ void SelectSort(vector<T>& v)
 void test()
 {
     vector<int> v;
-    int arr[]={4,2,6,3,2,65,6768,34,2,65,767,34,23,541,874,3,76,4,2};
+    int arr[]={10000,4,2,6,3,2,65,6768,34,2,65,767,34,23,541,874,3,76,4,2};
     int i;
     for(i=0;i<sizeof(arr)/sizeof(arr[0]);++i)
     {

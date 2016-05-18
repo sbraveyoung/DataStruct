@@ -33,7 +33,7 @@ void HeapSort(vector<T>& v)
     int i,length=v.size();
     for(i=length/2;i>=0;--i)
     {
-        AdjustDown(v[i]);
+        //AdjustDown(v[i]);
     }
 }
 
@@ -48,7 +48,7 @@ void test()
     {
         v.push_back(arr[i]);
     }
-    BubbleSort(v);
+    HeapSort(v);
     for(i=0;i<v.size();++i)
     {
         cout<<v[i]<<" ";

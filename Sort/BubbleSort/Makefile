@@ -1,5 +1,5 @@
 main:main.cpp
-	g++ -o $@ $^ -L../include -lfunc -g
+	g++ -o $@ $^ -g
 
 .PHONY:clean
 clean:
