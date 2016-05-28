@@ -4,23 +4,47 @@
 using namespace std;
 
 //划分
+//template<typename T>
+//int Partition(vector<T>& v,int left,int right)
+//{
+//    if(v.size()<=1 || left>=right-1)
+//        return left;
+//    T tmp=v[left];
+//    int i=left,j=right-1;
+//    while(i<j)
+//    {
+//        while(i<j && -1!=compair(v[j],tmp))
+//            j--;
+//        swap(v[j],v[i]);
+//        while(i<j && 1!=compair(v[i],tmp))
+//            i++;
+//        swap(v[i],v[j]);
+//    }
+//    return i;
+//}
+
+
+//另一种划分方法，单向移动，所以可以对单链表进行排序
 template<typename T>
 int Partition(vector<T>& v,int left,int right)
 {
-    if(v.size()<=1 || left>=right-1)
+    if(v.size()<=0 || left>=right-1)
         return left;
-    int i=left,j=right-1;
-    T tmp=left;
-    while(i<j)
+    int cur=left,prev=left-1;
+    while(cur<right-1)
     {
-        while(i<j && 1!=compair(v[i],v[tmp]))
-            i++;
-        while(i<j && -1!=compair(v[j],v[tmp]))
-            j--;
-        swap(v[i],v[j]);
+        while(cur<right-1 && compair(v[cur],v[right-1])!=-1)
+            cur++;
+        if(cur<right-1)
+        {
+            prev++;
+            swap(v[cur],v[prev]);
+            cur++;
+        }
     }
-    swap(v[i-1],v[tmp]);
-    return i;
+    ++prev;
+    swap(v[prev],v[right-1]);
+    return prev;
 }
 
 //快速排序
@@ -30,7 +54,7 @@ void QSort(vector<T>& v,int left,int right)
     if(v.size()<=0 || left>=right-1)
         return;
     int mid=Partition(v,left,right);
-    QSort(v,left,mid-1);
+    QSort(v,left,mid);
     QSort(v,mid+1,right);
 }
 
@@ -51,6 +75,11 @@ void test()
     {
         v.push_back(arr[i]);
     }
+    for(i=0;i<v.size();++i)
+    {
+        cout<<v[i]<<" ";
+    }
+    cout<<endl;
     QuickSort(v);
     for(i=0;i<v.size();++i)
     {

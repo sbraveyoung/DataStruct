@@ -3,27 +3,43 @@
 #include"../include/func.h"
 using namespace std;
 
+//最大堆
 template<typename T>
-void AdjustDown(vector<T>& v,int s)
+void AdjustDown(vector<T>& v,int length,int s)
 {
-    int length=v.size();
     int i;
-    int mi;
-    for(i=s;i<length;i*=2)
+    int MinChild;
+    for(i=s;i<length;)
     {
         if(i*2+1<length)
         {
-            mi=min(v,i,i*2,i*2+1);
+            MinChild=i;
+            if(compair(v[i*2+1],v[i*2])==-1)
+                MinChild=i*2;
+            else
+                MinChild=i*2+1;
+            if(compair(v[i],v[MinChild])==-1)
+            {
+                swap(v[i],v[MinChild]);
+                i=MinChild;
+            }
+            else
+            {
+                break;
+            }
         }
         else if(i*2<length)
         {
-            mi=v[i]<v[i*2]?i:i*2;
+            if(compair(v[i],v[i*2])==-1)
+            {
+                swap(v[i],v[i*2]);
+            }
+            i=i*2;
         }
         else
         {
-            mi=i;
+            i*=2;
         }
-        swap(v[i],v[mi]);
     }
 }
 
@@ -31,9 +47,15 @@ template<typename T>
 void HeapSort(vector<T>& v)
 {
     int i,length=v.size();
-    for(i=length/2;i>=0;--i)
+    for(i=(length+1)/2;i>0;--i)
     {
-        //AdjustDown(v[i]);
+        AdjustDown(v,length,i);
+    }
+    while(length>1)
+    {
+        swap(v[1],v[length-1]);
+        length--;
+        AdjustDown(v,length,1);
     }
 }
 
@@ -42,14 +64,19 @@ void HeapSort(vector<T>& v)
 void test()
 {
     vector<int> v;
-    int arr[]={4,2,6,3,2,65,6768,34,2,65,767,34,23,541,874,3,76,4,2};
+    int arr[]={0,4,2,6,3,2,65,6768,34,2,65,767,34,23,541,874,3,76,4,2};//0为占位符
     int i;
     for(i=0;i<sizeof(arr)/sizeof(arr[0]);++i)
     {
         v.push_back(arr[i]);
     }
+    for(i=1;i<v.size();++i)
+    {
+        cout<<v[i]<<" ";
+    }
+    cout<<endl;
     HeapSort(v);
-    for(i=0;i<v.size();++i)
+    for(i=1;i<v.size();++i)
     {
         cout<<v[i]<<" ";
     }
