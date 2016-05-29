@@ -67,6 +67,14 @@ public:
         assert(pos<_size);
         return _array[pos];
     }
+    size_t size()
+    {
+        return _size;
+    }
+    bool empty()
+    {
+        return _size<=0;
+    }
 private:
     void _Increase()
     {
