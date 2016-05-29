@@ -8,5 +8,6 @@ clean:
     do\
         cd ./$$dir;\
         make clean;\
+		git rm -rf main;\
 		cd ..;\
     done
