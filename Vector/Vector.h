@@ -29,7 +29,7 @@ public:
         v._capacity=_capacity;
         v._size=_size;
     }
-    const MyVector& operator=(const MyVector<T>& v)
+    MyVector& operator=(const MyVector<T>& v)
     {
         if(&v!=this)
         {
