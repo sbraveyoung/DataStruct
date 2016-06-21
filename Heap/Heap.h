@@ -20,6 +20,12 @@ public:
     {
         _vector=h._vector;
     }
+    const T& top()
+    {
+        if(empty())
+            throw new string("heap is null!");
+        return _vector[0];
+    }
     void make_heap()
     {
         int i;

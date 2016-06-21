@@ -103,19 +103,6 @@ void test2()
     }
     fclose(input);
 
-    ////GetTopK:最小前K个数
-    //int k=10;
-    //vector<int> res;
-    //res.push_back(0);
-    //for(i=0;i<k;++i)
-    //{
-    //    res.push_back(v[i]);
-    //}
-    //for(;i<10000000;++i)
-    //{
-    //    if(v[i]>res[1])
-    //}
-
     //堆排
     HeapSort(v);
 
