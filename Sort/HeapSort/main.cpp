@@ -1,4 +1,6 @@
 #include<iostream>
+#include<memory.h>
+#include<string.h>
 #include<vector>
 #include"../include/func.h"
 using namespace std;
@@ -61,7 +63,7 @@ void HeapSort(vector<T>& v)
 
 //--------测试代码------------
 
-void test()
+void test1()
 {
     vector<int> v;
     int arr[]={0,4,2,6,3,2,65,6768,34,2,65,767,34,23,541,874,3,76,4,2};//0为占位符
@@ -83,8 +85,53 @@ void test()
     cout<<endl;
 }
 
+void test2()
+{
+    //生成10000000个数
+    FILE* input=fopen("input.txt","w");
+    int i;
+    vector<int> v;
+    v.push_back(0);//占位符
+    srand(time(NULL));
+    char str[13];
+    memset(str,' ',sizeof(str));
+    for(i=0;i<10000000;++i)
+    {
+        v.push_back(rand());
+        sprintf(str,"%d\n",v[i+1]);
+        fwrite(str,sizeof(char),strlen(str),input);
+    }
+    fclose(input);
+
+    ////GetTopK:最小前K个数
+    //int k=10;
+    //vector<int> res;
+    //res.push_back(0);
+    //for(i=0;i<k;++i)
+    //{
+    //    res.push_back(v[i]);
+    //}
+    //for(;i<10000000;++i)
+    //{
+    //    if(v[i]>res[1])
+    //}
+
+    //堆排
+    HeapSort(v);
+
+    //输出到文件
+    FILE* output=fopen("output.txt","w"); 
+    for(i=1;i<10000001;++i)
+    {
+        sprintf(str,"%d\n",v[i]);
+        fwrite(str,sizeof(char),strlen(str),output);
+    }
+    fclose(output);
+}
+
 int main()
 {
-    test();
+    //test1();
+    test2();
     return 0;
 }

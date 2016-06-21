@@ -3,4 +3,4 @@ main:main.cpp
 
 .PHONY:clean
 clean:
-	rm -rf main
+	rm -rf main input.txt output.txt

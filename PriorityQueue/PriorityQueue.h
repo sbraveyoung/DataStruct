@@ -34,6 +34,12 @@ public:
     void push(const T& key,const U& value)
     {
     }
+    void pop()
+    {
+    }
+    U& top()
+    {
+    }
 private:
     heap<T> MyHeap;
 };
