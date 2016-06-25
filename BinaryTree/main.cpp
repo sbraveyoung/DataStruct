@@ -286,7 +286,174 @@ public:
         }
         cout<<endl;
     }
+    //Morris先序遍历，时间复杂度为O(n),空间复杂度为O(1)
+    void MorrisPre()
+    {
+        if(root==NULL)
+            return;
+        Node<T>* cur=root;
+        Node<T>* LeftTreeRightNode=NULL;
+loop:
+        while(cur->left!=NULL)
+        {
+            cout<<cur->data<<" ";
+            LeftTreeRightNode=cur->left;
+            while(LeftTreeRightNode->right!=NULL)
+            {
+                LeftTreeRightNode=LeftTreeRightNode->right;
+            }
+            LeftTreeRightNode->right=cur;
+            cur=cur->left;
+        }
+        cout<<cur->data<<" ";
+        cur=cur->right;
+        while(cur!=NULL)
+        {
+            LeftTreeRightNode=cur->left;
+            if(LeftTreeRightNode==NULL)
+                goto loop;
+            while(LeftTreeRightNode->right!=NULL && LeftTreeRightNode->right!=cur)
+            {
+                LeftTreeRightNode=LeftTreeRightNode->right;
+            }
+            if(LeftTreeRightNode->right==NULL)
+            {
+                goto loop;
+            }
+            else
+            {
+                LeftTreeRightNode->right=NULL;
+                cur=cur->right;
+            }
+        }
+        cout<<endl;
+    }
+    //Morris中序遍历，时间复杂度为O(n),空间复杂度为O(1)
+    void MorrisIn()
+    {
+        if(root==NULL)
+            return;
+        Node<T>* cur=root;
+        Node<T>* LeftTreeRightNode=NULL;
+loop:
+        while(cur->left!=NULL)
+        {
+            LeftTreeRightNode=cur->left;
+            while(LeftTreeRightNode->right!=NULL)
+            {
+                LeftTreeRightNode=LeftTreeRightNode->right;
+            }
+            LeftTreeRightNode->right=cur;
+            cur=cur->left;
+        }
+        cout<<cur->data<<" ";
+        cur=cur->right;
+        while(cur!=NULL)
+        {
+            LeftTreeRightNode=cur->left;
+            if(LeftTreeRightNode==NULL)
+                goto loop;
+            while(LeftTreeRightNode->right!=NULL && LeftTreeRightNode->right!=cur)
+            {
+                LeftTreeRightNode=LeftTreeRightNode->right;
+            }
+            if(LeftTreeRightNode->right==NULL)
+            {
+                goto loop;
+            }
+            else
+            {
+                LeftTreeRightNode->right=NULL;
+                cout<<cur->data<<" ";
+                cur=cur->right;
+            }
+        }
+        cout<<endl;
+    }
+    //Morris后序遍历，时间复杂度为O(n),空间复杂度为O(1)
+    void MorrisPost()
+    {
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //error
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        if(root==NULL)
+            return;
+        Node<T>* cur=root;
+        Node<T>* LeftTreeRightNode=NULL;
+loop:
+        while(cur->left!=NULL)
+        {
+            LeftTreeRightNode=cur->left;
+            while(LeftTreeRightNode->right!=NULL)
+            {
+                LeftTreeRightNode=LeftTreeRightNode->right;
+            }
+            LeftTreeRightNode->right=cur;
+            cur=cur->left;
+        }
+        cur=cur->right;
+        while(cur!=NULL)
+        {
+            LeftTreeRightNode=cur->left;
+            if(LeftTreeRightNode==NULL)
+                goto loop;
+            while(LeftTreeRightNode->right!=NULL && LeftTreeRightNode->right!=cur)
+            {
+                LeftTreeRightNode=LeftTreeRightNode->right;
+            }
+            if(LeftTreeRightNode->right==NULL)
+                goto loop;
+            else
+            {
+                //cout<<cur->left->data<<" ";
+                Node<T>* head=_ReverseRightEdge(cur->left);
+                _PrintList(head);
+                cur->left=_ReverseRightEdge(head);
+                LeftTreeRightNode->right=NULL;
+                cur=cur->right;
+            }
+        }
+        //逆置树的右边界
+        Node<T>* head=_ReverseRightEdge(this->root);
+        cur=head;
+        while(cur!=NULL)
+        {
+            cout<<cur->data<<" ";
+            cur=cur->right;
+        }
+        //再逆置一次
+        _ReverseRightEdge(head);
+        cout<<endl;
+    }
 private:
+    void _PrintList(Node<T>* _root)
+    {
+        if(_root==NULL)
+            return;
+        while(_root!=NULL)
+        {
+            cout<<_root->data<<" ";
+            _root=_root->right;
+        }
+    }
+    Node<T>* _ReverseRightEdge(Node<T>* _root)
+    {
+        if(_root==NULL)
+            return NULL;
+        Node<T>* tmp=NULL;
+        Node<T>* head=_root;
+        Node<T>* cur=NULL;
+        cur=head->right;
+        head->right=NULL;
+        while(cur!=NULL)
+        {
+            tmp=cur->right;
+            cur->right=head;
+            head=cur;
+            cur=tmp;
+        }
+        return head;
+    }
     int _size(Node<T>* root)
     {
         if(root==NULL)
@@ -443,8 +610,12 @@ void test2()
     btree.CreateWithPre(pre,in,sizeof(pre)/sizeof(pre[0]));
     //btree.PrintEdge1();
     //btree.PrintEdge2();
-    btree.PrintTree();
+    //btree.PrintTree();
+    btree.MorrisIn();
+    btree.MorrisPre();
+    btree.MorrisPost();
 }
+
 
 int main()
 {
