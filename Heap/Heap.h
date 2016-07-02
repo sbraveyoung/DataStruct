@@ -6,10 +6,37 @@
 using namespace std;
 
 template<typename T>
+class Less{
+public:
+    //bool operator()()
+    //{
+    //    cout<<"AAAAAAAAAAAAAAAAA"<<endl;
+    //    return true;
+    //}
+    bool operator()(const T& t1,const T& t2)
+    {
+        return t1<t2;
+    }
+};
+
+template<typename T>
+class Greater{
+public:
+    bool operator()(const T& t1,const T& t2)
+    {
+        return t1>t2;
+    }
+};
+
+template<typename T,typename Compair=Less<T>>
 class heap{
 public:
     heap():_vector()
     {}
+    heap(const MyVector<T>& v):_vector(v)
+    {
+        make_heap();
+    }
     ~heap()
     {}
     heap(const heap& h)
@@ -37,11 +64,12 @@ public:
     }
     void push_heap(const T& t)
     {
+        Compair cp;
         _vector.push_back(t);
         int i=_vector.size()-1;
         for(;i>=0;)
         {
-            if(_vector[i]>_vector[i/2])
+            if(cp(_vector[i],_vector[i/2]))
             {
                 swap(_vector[i],_vector[i/2]);
                 i=i/2;
@@ -55,6 +83,10 @@ public:
     bool empty()
     {
         return _vector.empty();
+    }
+    size_t size()
+    {
+        return _vector.size();
     }
     T& pop_heap()
     {
@@ -89,6 +121,7 @@ public:
 private:
     void _JustDown(int s,int n)
     {
+        Compair cp;
         if(n<=1)
             return;
         if(s>=n)
@@ -98,8 +131,8 @@ private:
         {
             if(i*2+1<n)
             {
-                int max=_vector[i*2+1]>_vector[i*2]?i*2+1:i*2;
-                max=_vector[max]>_vector[i]?max:i;
+                int max=cp(_vector[i*2+1],_vector[i*2])?i*2+1:i*2;
+                max=cp(_vector[max],_vector[i])?max:i;
                 if(i!=max)
                 {
                     swap(_vector[i],_vector[max]);
@@ -112,7 +145,7 @@ private:
             }
             else if(i*2<n)
             {
-                if(_vector[i*2]>_vector[i])
+                if(cp(_vector[i*2],_vector[i]))
                     swap(_vector[i],_vector[i*2]);
                 i*=2;
             }

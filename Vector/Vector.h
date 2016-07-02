@@ -15,6 +15,22 @@ public:
         _size=0;
         _capacity=1;
     }
+    MyVector(T* arr,size_t size)
+    {
+        if(arr==NULL)
+        {
+            MyVector();
+            return;
+        }
+        _array=new T[size];
+        int i;
+        for(i=0;i<size;++i)
+        {
+            _array[i]=arr[i];
+        }
+        _size=size;
+        _capacity=size;
+    }
     ~MyVector()
     {
         delete[] _array;
@@ -24,10 +40,10 @@ public:
     }
     MyVector(const MyVector<T>& v)
     {
-        v._array=new T[this->_capacity];
+        _array=new T[this->_capacity];
         memmove(v._array,this->_array,sizeof(T)*this->_size);
-        v._capacity=_capacity;
-        v._size=_size;
+        _capacity=v._capacity;
+        _size=v._size;
     }
     MyVector& operator=(const MyVector<T>& v)
     {
