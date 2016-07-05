@@ -40,10 +40,10 @@ public:
     }
     MyVector(const MyVector<T>& v)
     {
-        _array=new T[this->_capacity];
-        memmove(v._array,this->_array,sizeof(T)*this->_size);
         _capacity=v._capacity;
         _size=v._size;
+        _array=new T[this->_capacity];
+        memmove(this->_array,v._array,sizeof(T)*this->_size);
     }
     MyVector& operator=(const MyVector<T>& v)
     {
@@ -58,13 +58,13 @@ public:
     void push_back(const T& t)
     {
         if(_size==_capacity)
-            _Increase();
+            _Increase(_capacity*2);
         _array[_size++]=t;
     }
     void push_front(const T& t)
     {
         if(_size==_capacity)
-            _Increase();
+            _Increase(_capacity*2);
         memmove(_array,_array+1,sizeof(T)*_size++);
         _array[0]=t;
     }
@@ -91,10 +91,19 @@ public:
     {
         return _size<=0;
     }
-private:
-    void _Increase()
+    void resize(size_t size)
     {
-        _capacity*=2;
+        if(size<=_size)
+            return;
+        _Increase(size);
+        _size=size;
+    }
+private:
+    void _Increase(size_t size)
+    {
+        if(size<=_capacity)
+            return;
+        _capacity=size;
         T* tmp=new T[_capacity];
         memmove(tmp,_array,sizeof(T)*_size);
         swap(tmp,_array);

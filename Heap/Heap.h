@@ -8,11 +8,6 @@ using namespace std;
 template<typename T>
 class Less{
 public:
-    //bool operator()()
-    //{
-    //    cout<<"AAAAAAAAAAAAAAAAA"<<endl;
-    //    return true;
-    //}
     bool operator()(const T& t1,const T& t2)
     {
         return t1<t2;
@@ -88,7 +83,7 @@ public:
     {
         return _vector.size();
     }
-    T& pop_heap()
+    T pop_heap()
     {
         if(empty())
             throw new string("heap is null!");
@@ -96,6 +91,7 @@ public:
         T tmp=_vector[_vector.size()-1];
         _vector.pop_back();
         _JustDown(0,_vector.size());
+        return tmp;
     }
     void sort_heap()
     {
@@ -129,25 +125,25 @@ private:
         int i;
         for(i=s;i<n;)
         {
-            if(i*2+1<n)
+            if(i*2+2<n)
             {
-                int max=cp(_vector[i*2+1],_vector[i*2])?i*2+1:i*2;
-                max=cp(_vector[max],_vector[i])?max:i;
-                if(i!=max)
+                int select=cp(_vector[i*2+1],_vector[i*2+2])?i*2+1:i*2+2;
+                select=cp(_vector[select],_vector[i])?select:i;
+                if(i!=select)
                 {
-                    swap(_vector[i],_vector[max]);
-                    i=max;
+                    swap(_vector[i],_vector[select]);
+                    i=select;
                 }
                 else
                 {
                     break;
                 }
             }
-            else if(i*2<n)
+            else if(i*2+1<n)
             {
-                if(cp(_vector[i*2],_vector[i]))
-                    swap(_vector[i],_vector[i*2]);
-                i*=2;
+                if(cp(_vector[i*2+1],_vector[i]))
+                    swap(_vector[i],_vector[i*2+1]);
+                i=i*2+1;
             }
             else
             {
