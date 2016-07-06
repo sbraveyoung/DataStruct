@@ -8,9 +8,9 @@ void testAVLTree()
     int a1[] = {16, 3, 7, 11, 9, 26, 18, 14, 15};
     for (int  i = 0; i < sizeof(a1)/sizeof(int); ++i)
     {
+    //cout<<"AAAAAAAAAAAAAAAAAAAAAAAAA"<<endl;
         t1.Insert(a1[i], a1[i]);
     }
-    cout<<"AAAAAAAAAAAAAAAAAAAAAAAAA"<<endl;
 
     t1.InOrder();
 

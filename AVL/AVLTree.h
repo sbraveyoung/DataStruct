@@ -96,17 +96,6 @@ public:
                 }
                 break;
             }
-            Node* ppNode=parent->_parent;
-            cur->_parent=ppNode;
-            if(ppNode==NULL)
-                _root=cur;
-            else
-            {
-                if(ppNode->_left==parent)
-                    ppNode->_left=cur;
-                else
-                    ppNode->_right=cur;
-            }
         }
         return true;
     }
@@ -134,6 +123,9 @@ public:
         int depth=0;
         return _IsBalance(_root,depth);
     }
+	bool Remove(const K& key)
+	{
+	}
 protected:
     bool _IsBalance(Node* root,int& depth)
     {
@@ -167,12 +159,28 @@ protected:
             return;
         Node* parent=root;
         Node* subR=parent->_right;
-        parent->_right=subR->_left;
-        if(subR->_left!=NULL)
-            subR->_left->_parent=parent;
+        Node* subRL=subR->_left;
+        parent->_right=subRL;
+        if(subRL!=NULL)
+            subRL->_parent=parent;
+        Node* ppNode=parent->_parent;
         subR->_left=parent;
-        parent->_bf--;
-        subR->_bf--;
+        parent->_parent=subR;
+        if(ppNode!=NULL)
+        {
+            if(ppNode->_left==parent)
+                ppNode->_left=subR;
+            else
+                ppNode->_right=subR;
+        }
+        else
+        {
+            _root=subR;
+        }
+        subR->_parent=ppNode;
+		parent->_bf = subR->_bf = 0;
+        //parent->_bf--;
+        //subR->_bf--;
     }
     void RotateR(Node* root)
     {
@@ -180,12 +188,28 @@ protected:
             return;
         Node* parent=root;
         Node* subL=parent->_left;
-        parent->_left=subL->_right;
-        if(subL->_right!=NULL)
-            subL->_right->_parent=parent;
+        Node* subLR=subL->_right;
+        parent->_left=subLR;
+        if(subLR!=NULL)
+            subLR->_parent=parent;
+        Node* ppNode=parent->_parent;
         subL->_right=parent;
-        parent->_bf++;
-        subL->_bf++;
+        parent->_parent=subL;
+        if(ppNode!=NULL)
+        {
+            if(ppNode->_left==parent)
+                ppNode->_left=subL;
+            else
+                ppNode->_right=subL;
+        }
+        else
+        {
+            _root=subL;
+        }
+        subL->_parent=ppNode;
+		parent->_bf = subL->_bf = 0;
+        //parent->_bf++;
+        //subL->_bf++;
     }
     void RotateRL(Node* root)
     {
@@ -205,9 +229,6 @@ protected:
             return;
         Node* parent=root;
         Node* subL=parent->_left;
-        Node* subLR=NULL;
-        if(subL!=NULL)
-            subLR=subL->_right;
         RotateL(subL);
         RotateR(parent);
     }
