@@ -1,6 +1,6 @@
-test:main.cpp
+main:main.cpp
 	g++ -o $@ $^ -g
 
 .PHONY:clean
 clean:
-	rm -rf test 
+	rm -rf main
