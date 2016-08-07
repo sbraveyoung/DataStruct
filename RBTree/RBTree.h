@@ -169,6 +169,7 @@ protected:
                 }
             }
         }
+        _root->_color=BLANK;
     }
 private:
     Node* _root;
