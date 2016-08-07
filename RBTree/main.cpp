@@ -2,6 +2,5 @@
 
 int main()
 {
-    cout<<sizeof(Color)<<endl;
     return 0;
 }
